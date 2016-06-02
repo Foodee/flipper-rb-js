@@ -74,6 +74,22 @@ describe('Flipper', ()=> {
           done();
         });
     });
+
+    it('should attach headers when provides', () => {
+      server.respondWith('GET', '/fake-url', [404, {'Content-Type': 'application/json'}, 'reason']);
+
+      Flipper.load('/fake-url', {
+        headers: {
+          foo: 'bar',
+          baz: 'qux'
+        }
+      });
+
+      server.respond();
+
+      server.requests[0].requestHeaders.foo.should.equal('bar');
+      server.requests[0].requestHeaders.baz.should.equal('qux');
+    });
   });
 
   describe('#isEnabled', () => {
@@ -109,6 +125,18 @@ describe('Flipper', ()=> {
       callback.called.should.equal(true);
       callback2.called.should.equal(false);
     });
+  });
+
+
+  describe('#set #get', () => {
+    it('should allow for getting and setting of features', () => {
+      let features = {foo: true, bar: false};
+      let flipper = new Flipper(features);
+
+      flipper.get('foo').should.equal(true);
+      flipper.set('foo', false);
+      flipper.get('foo').should.equal(false);
+    })
   });
 
 

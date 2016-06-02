@@ -1,5 +1,14 @@
 # flipper-rb-js
 
+[![Build Status](https://travis-ci.org/Foodee/flipper-rb-js.svg)](https://travis-ci.org/Foodee/flipper-rb-js)
+
+[![Code Climate](https://codeclimate.com/github/Foodee/flipper-rb-js/badges/gpa.svg)](https://codeclimate.com/github/Foodee/flipper-rb-js)
+
+[![Issue Count](https://codeclimate.com/github/Foodee/flipper-rb-js/badges/issue_count.svg)](https://codeclimate.com/github/Foodee/flipper-rb-js)
+
+[![Test Coverage](https://codeclimate.com/github/Foodee/flipper-rb-js/badges/coverage.svg)](https://codeclimate.com/github/Foodee/flipper-rb-js/coverage)kA
+
+
 Simple lib for letting your JavaScript talk to Flipper.rb
 
 ## Motivation
@@ -47,8 +56,19 @@ load function like so
 
 ```JavaScript
 
-let eventuallyFlipper = Flipper.load('/api/users/features', Ember.RSVP.Promise);
+let eventuallyFlipper = Flipper.load('/api/users/features', {PromiseClass: Ember.RSVP.Promise});
 
+```
+
+You might need some custom authentication (since you're likely flipping per user) so you can pass along some headers as well.
+
+```JavaScript
+let eventuallyFlipper = Flipper.load('/api/users/features', {
+                                                              PromiseClass: Ember.RSVP.Promise,
+                                                              headers: {
+                                                                Authentication: token="myToken"
+                                                              }
+                                                            });
 ```
 
 
