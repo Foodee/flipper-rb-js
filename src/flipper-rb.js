@@ -84,12 +84,18 @@ class Flipper {
 
   /**
    * @param {string} url endpoint
+   * @param {object} options
+
    * @returns {Promise.<Flipper>} promise of the initialized flipper
    */
-  static load(url, PromiseKlass = Promise) {
-    return new PromiseKlass((resolve, reject) => {
+  static load(url, {headers = {}, PromiseClass = Promise} = {}) {
+    return new PromiseClass((resolve, reject) => {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
+
+      Object
+        .keys(headers)
+        .forEach(key => xhr.setRequestHeader(key, headers[key]));
 
       xhr.onload = function (e) {
         if (xhr.readyState === 4) {
@@ -106,7 +112,6 @@ class Flipper {
 
             resolve(new Flipper(result));
           } else {
-
             reject(xhr.statusText);
           }
         }
@@ -128,4 +133,4 @@ class Flipper {
   }
 }
 
-export default Flipper;
+module.exports = Flipper;

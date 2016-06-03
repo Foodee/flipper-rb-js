@@ -14,7 +14,7 @@ if (env === 'build') {
 
 
 module.exports = {
-  entry: "./src/index",
+  entry: ['./src/flipper-rb'],
   output: {
     path: __dirname + '/lib',
     filename: outputFile,

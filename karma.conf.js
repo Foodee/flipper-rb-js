@@ -2,6 +2,13 @@
 // Generated on Thu Jun 02 2016 11:23:30 GMT-0700 (PDT)
 var webpackConfig = require('./webpack.config.js');
 
+webpackConfig.module.postLoaders = [{
+//delays coverage til after tests are run, fixing transpiled source coverage error
+  test: /\.js$/,
+  exclude: /(test|node_modules|bower_components)\//,
+  loader: 'istanbul-instrumenter'
+}];
+
 module.exports = function (config) {
   config.set({
 
@@ -21,6 +28,7 @@ module.exports = function (config) {
 
     plugins: [
       'karma-webpack',
+      'karma-coverage',
       'karma-mocha',
       'karma-mocha-reporter',
       'karma-phantomjs-launcher',
@@ -43,7 +51,8 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
+
 
     // web server port
     port: 9876,
@@ -72,6 +81,11 @@ module.exports = function (config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+
+    coverageReporter: {
+      type: 'lcov', //produces a html document after code is run
+      dir: 'coverage/' //path to created html doc
+    }
   })
 };
